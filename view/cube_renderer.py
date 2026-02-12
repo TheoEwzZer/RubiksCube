@@ -112,7 +112,7 @@ class CubeRenderer:
         )
 
     def set_speed(self, speed):
-        self._speed = max(0.02, speed)
+        self._speed = max(0.05, speed)
 
     def animate_move(self, move_name, callback=None):
         self._move_queue.append((move_name, callback))
@@ -198,6 +198,10 @@ class CubeRenderer:
         )
 
         def on_done():
+            # Force exact target rotation BEFORE reparenting
+            # This prevents errors when callback fires before animation ends
+            self.rotation_helper.rotation = target
+
             for cubie in selected:
                 cubie.world_parent = scene
                 # Snap position to integer grid
@@ -218,7 +222,7 @@ class CubeRenderer:
                 callback()
             self._process_next_move()
 
-        invoke(on_done, delay=self._speed + 0.02)
+        invoke(on_done, delay=self._speed + 0.05)
 
     def _select_cubies(self, axis, layer_val):
         selected = []
