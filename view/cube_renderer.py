@@ -19,25 +19,27 @@ COLOR_MAP = {
 }
 
 # Move name -> (axis, layer_val, angle)
+# Angles match the solver's conventions: U/R/F clockwise = +90° on their axis,
+# D/L/B clockwise = -90° (opposite face, opposite rotation direction).
 MOVE_DEFS = {
-    'U':  ('y',  1, -90),
-    "U'": ('y',  1,  90),
-    'U2': ('y',  1, -180),
-    'D':  ('y', -1,  90),
-    "D'": ('y', -1, -90),
-    'D2': ('y', -1,  180),
-    'R':  ('x',  1, -90),
-    "R'": ('x',  1,  90),
-    'R2': ('x',  1, -180),
-    'L':  ('x', -1,  90),
-    "L'": ('x', -1, -90),
-    'L2': ('x', -1,  180),
-    'F':  ('z', -1, -90),
-    "F'": ('z', -1,  90),
-    'F2': ('z', -1, -180),
-    'B':  ('z',  1,  90),
-    "B'": ('z',  1, -90),
-    'B2': ('z',  1,  180),
+    'U':  ('y',  1,  90),
+    "U'": ('y',  1, -90),
+    'U2': ('y',  1,  180),
+    'D':  ('y', -1, -90),
+    "D'": ('y', -1,  90),
+    'D2': ('y', -1, -180),
+    'R':  ('x',  1,  90),
+    "R'": ('x',  1, -90),
+    'R2': ('x',  1,  180),
+    'L':  ('x', -1, -90),
+    "L'": ('x', -1,  90),
+    'L2': ('x', -1, -180),
+    'F':  ('z', -1,  90),
+    "F'": ('z', -1, -90),
+    'F2': ('z', -1,  180),
+    'B':  ('z',  1, -90),
+    "B'": ('z',  1,  90),
+    'B2': ('z',  1, -180),
 }
 
 
@@ -198,24 +200,16 @@ class CubeRenderer:
         )
 
         def on_done():
-            # Force exact target rotation BEFORE reparenting
-            # This prevents errors when callback fires before animation ends
             self.rotation_helper.rotation = target
 
             for cubie in selected:
                 cubie.world_parent = scene
-                # Snap position to integer grid
                 cubie.position = Vec3(
                     round(cubie.world_position.x),
                     round(cubie.world_position.y),
                     round(cubie.world_position.z),
                 )
-                # Snap rotation to nearest 90° to prevent drift
-                cubie.rotation = Vec3(
-                    round(cubie.rotation_x / 90) * 90,
-                    round(cubie.rotation_y / 90) * 90,
-                    round(cubie.rotation_z / 90) * 90,
-                )
+
             self.rotation_helper.rotation = Vec3(0, 0, 0)
 
             if callback:
