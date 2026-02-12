@@ -55,10 +55,10 @@ class UIPanel:
              scale=0.9, color=color.light_gray)
 
         self._speed_btns = []
-        speeds = [('Rapide', 0.05), ('Normal', 0.3), ('Lent', 0.8)]
+        speeds = [('Instant', 0), ('Rapide', 0.05), ('Normal', 0.3), ('Lent', 0.8)]
         for i, (label, val) in enumerate(speeds):
-            c = color.azure if i == 1 else color.rgb32(80, 80, 90)
-            btn = self._btn(label, (-0.24 + i * 0.14, row1_y), (0.12, 0.045),
+            c = color.azure if i == 2 else color.rgb32(80, 80, 90)
+            btn = self._btn(label, (-0.28 + i * 0.13, row1_y), (0.11, 0.045),
                             c, Func(self._set_speed, i, val))
             self._speed_btns.append(btn)
 

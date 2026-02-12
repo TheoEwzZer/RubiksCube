@@ -114,14 +114,55 @@ class CubeRenderer:
         )
 
     def set_speed(self, speed):
-        self._speed = max(0.05, speed)
+        self._speed = max(0, speed)
+
+    def apply_move_instant(self, move_name):
+        """Apply a move instantly without animation."""
+        if move_name not in MOVE_DEFS:
+            return
+        axis, layer_val, angle = MOVE_DEFS[move_name]
+        selected = self._select_cubies(axis, layer_val)
+
+        self.rotation_helper.rotation = Vec3(0, 0, 0)
+        for cubie in selected:
+            cubie.world_parent = self.rotation_helper
+
+        if axis == 'x':
+            self.rotation_helper.rotation = Vec3(angle, 0, 0)
+        elif axis == 'y':
+            self.rotation_helper.rotation = Vec3(0, angle, 0)
+        elif axis == 'z':
+            self.rotation_helper.rotation = Vec3(0, 0, angle)
+
+        for cubie in selected:
+            cubie.world_parent = scene
+            cubie.position = Vec3(
+                round(cubie.world_position.x),
+                round(cubie.world_position.y),
+                round(cubie.world_position.z),
+            )
+
+        self.rotation_helper.rotation = Vec3(0, 0, 0)
 
     def animate_move(self, move_name, callback=None):
+        if self._speed == 0:
+            self.apply_move_instant(move_name)
+            if callback:
+                callback()
+            return
         self._move_queue.append((move_name, callback))
         if not self.animating:
             self._process_next_move()
 
     def animate_sequence(self, moves, on_complete=None, step_callback=None):
+        if self._speed == 0:
+            for i, move in enumerate(moves):
+                if step_callback:
+                    step_callback(i + 1, len(moves), move)
+                self.apply_move_instant(move)
+            if on_complete:
+                on_complete()
+            return
         self._sequence_moves = list(moves)
         self._sequence_index = 0
         self._sequence_on_complete = on_complete
