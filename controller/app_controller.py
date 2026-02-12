@@ -6,6 +6,7 @@ Handles keyboard input for manual mode and AI solve sequencing.
 """
 
 import threading
+import time
 from ursina import *
 
 
@@ -71,6 +72,7 @@ class AppController:
             return
 
         self._solving = True
+        self._solve_start = time.time()
         self.ui.set_status('Resolution en cours...')
 
         # Run solver in a background thread to avoid freezing the UI
@@ -103,8 +105,9 @@ class AppController:
 
         def on_done():
             self._solving = False
+            elapsed = time.time() - self._solve_start
             if self.state.is_solved():
-                self.ui.set_status('Cube RESOLU !')
+                self.ui.set_status(f'Cube RESOLU en {n} coups en {elapsed:.1f}s !')
             else:
                 self.ui.set_status('Animation terminee.')
 
