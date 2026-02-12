@@ -2,7 +2,7 @@
 
 Un solveur de Rubik's Cube interactif en 3D avec visualisation en temps reel et annotations educatives. Le projet utilise l'algorithme **Two-Phase de Kociemba** implemente entierement en Python (sans librairie externe de resolution) et le moteur **Ursina** pour le rendu 3D.
 
-> Resolution moyenne : **~22 mouvements** en **~0.25 seconde**.
+> Resolution moyenne : **~22 mouvements** en **~0.19 seconde**.
 
 ---
 
@@ -346,9 +346,9 @@ Le systeme gere une **file d'attente** pour les sequences de mouvements, avec su
 
 | Metrique                                  | Valeur        |
 | ----------------------------------------- | ------------- |
-| Nombre moyen de mouvements                | ~22.4         |
-| Temps moyen de resolution                 | ~0.25 s       |
+| Nombre moyen de mouvements                | ~22.2         |
+| Temps moyen de resolution                 | ~0.19 s       |
 | Longueur max recherchee                   | 23 mouvements |
 | Timeout                                   | 30 s          |
-| Premier lancement (generation des tables) | ~10-15 s      |
+| Premier lancement (generation des tables) | ~15 s         |
 | Lancements suivants (cache)               | < 1 s         |

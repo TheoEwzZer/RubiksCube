@@ -4,7 +4,7 @@
 
 An interactive 3D Rubik's Cube solver with real-time visualization and educational annotations. The project uses the **Two-Phase Kociemba algorithm** implemented entirely in pure Python (no external solving library) and the **Ursina** engine for 3D rendering.
 
-> Average solve: **~22 moves** in **~0.25 seconds**.
+> Average solve: **~22 moves** in **~0.19 seconds**.
 
 ---
 
@@ -348,9 +348,9 @@ The system manages a **queue** for move sequences, with pause/resume/step-by-ste
 
 | Metric                          | Value    |
 | ------------------------------- | -------- |
-| Average move count              | ~22.4    |
-| Average solve time              | ~0.25 s  |
+| Average move count              | ~22.2    |
+| Average solve time              | ~0.19 s  |
 | Max search length               | 23 moves |
 | Timeout                         | 30 s     |
-| First launch (table generation) | ~10-15 s |
+| First launch (table generation) | ~15 s    |
 | Subsequent launches (cached)    | < 1 s    |
