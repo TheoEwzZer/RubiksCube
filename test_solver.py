@@ -108,8 +108,9 @@ from solver.solver import solve, solve_from_moves
 
 # Solve a simple scramble
 print("Solving U R F scramble...")
-solution = solve_from_moves(["U", "R", "F"])
-print(f"Solution: {' '.join(solution)} ({len(solution)} moves)")
+result = solve_from_moves(["U", "R", "F"])
+solution = result["moves"]
+print(f"Solution: {' '.join(solution)} ({len(solution)} moves, phase1={result['phase1_length']})")
 
 # Verify solution
 c = CubieCube()
@@ -128,10 +129,11 @@ scramble_moves = scramble_str.split()
 print(f"Scramble: {scramble_str}")
 
 t0 = time.time()
-solution = solve_from_moves(scramble_moves)
+result = solve_from_moves(scramble_moves)
 elapsed = time.time() - t0
-if solution:
-    print(f"Solution: {' '.join(solution)} ({len(solution)} moves, {elapsed:.2f}s)")
+if result:
+    solution = result["moves"]
+    print(f"Solution: {' '.join(solution)} ({len(solution)} moves, phase1={result['phase1_length']}, {elapsed:.2f}s)")
 
     # Verify
     c = CubieCube()

@@ -43,7 +43,11 @@ def solve(cube_input, max_length=23, timeout=30):
         raise TypeError("cube_input must be a facelet string or CubieCube")
 
     solver = _get_solver()
-    return solver.solve(cube, max_length=max_length, timeout_seconds=timeout)
+    result = solver.solve(cube, max_length=max_length, timeout_seconds=timeout)
+    if result is None:
+        return None
+    moves, phase1_length = result
+    return {"moves": moves, "phase1_length": phase1_length}
 
 
 def solve_from_moves(scramble_moves, max_length=23, timeout=30):

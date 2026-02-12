@@ -79,7 +79,7 @@ class TwoPhaseSearch:
             raise ValueError(f"Invalid cube state: {err}")
 
         if cube.is_solved():
-            return []
+            return ([], 0)
 
         # Extract phase 1 coordinates
         twist = coord.get_twist(cube)
@@ -90,6 +90,7 @@ class TwoPhaseSearch:
         # Store the cube for phase 2 initialization
         self._cube = cube
         self._best_solution = None
+        self._phase1_length = 0
         self._timeout = start_time + timeout_seconds
 
         # Try increasing phase 1 depths
@@ -120,7 +121,7 @@ class TwoPhaseSearch:
                 break
 
         if self._best_solution is not None:
-            return [MOVE_NAMES[m] for m in self._best_solution]
+            return ([MOVE_NAMES[m] for m in self._best_solution], self._phase1_length)
 
         return None  # No solution found
 
@@ -191,6 +192,7 @@ class TwoPhaseSearch:
         if cperm == 0 and ud_edges == 0 and udslice_sorted == 0:
             # Already solved after phase 1!
             self._best_solution = list(phase1_moves)
+            self._phase1_length = len(phase1_moves)
             return True
 
         n_phase2_moves = len(PHASE2_MOVES)
@@ -243,6 +245,7 @@ class TwoPhaseSearch:
                 for i in range(depth):
                     full_solution.append(PHASE2_MOVES[moves[i]])
                 self._best_solution = full_solution
+                self._phase1_length = len(phase1_moves)
                 return True
             return False
 

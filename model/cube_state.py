@@ -56,7 +56,7 @@ class GameCubeState:
         return moves
 
     def solve(self, max_length=23, timeout=30):
-        """Solve the current state. Returns list of move names."""
+        """Solve the current state. Returns dict with 'moves' and 'phase1_length', or None."""
         from solver.solver import solve
         return solve(self.cube, max_length=max_length, timeout=timeout)
 

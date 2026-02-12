@@ -107,6 +107,29 @@ class UIPanel:
             color=color.rgb32(160, 160, 180),
         )
 
+        # --- Educational annotations (right side) ---
+        self.phase_title_text = Text(
+            text='',
+            parent=camera.ui,
+            position=(0.30, 0.28),
+            scale=1.2,
+            color=color.yellow,
+        )
+        self.phase_desc_text = Text(
+            text='',
+            parent=camera.ui,
+            position=(0.30, 0.21),
+            scale=0.75,
+            color=color.rgb32(190, 190, 200),
+        )
+        self.move_desc_text = Text(
+            text='',
+            parent=camera.ui,
+            position=(0.30, 0.05),
+            scale=1.0,
+            color=color.white,
+        )
+
     def _toggle_mode(self):
         if self._mode == 'Manuel':
             self._mode = 'IA'
@@ -169,9 +192,19 @@ class UIPanel:
     def set_status(self, text):
         self.status_text.text = text
 
+    def set_phase_display(self, title, desc):
+        self.phase_title_text.text = title
+        self.phase_desc_text.text = desc
+
+    def set_move_description(self, text):
+        self.move_desc_text.text = text
+
     def clear_displays(self):
         self.moves_text.text = ''
         self.step_text.text = ''
+        self.phase_title_text.text = ''
+        self.phase_desc_text.text = ''
+        self.move_desc_text.text = ''
 
     @property
     def mode(self):
